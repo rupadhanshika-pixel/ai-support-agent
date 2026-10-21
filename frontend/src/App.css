@@ -1,0 +1,226 @@
+
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: #0b1020;
+  color: #f1f5f9;
+}
+
+.app {
+  min-height: 100vh;
+  padding: 28px 7%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #273047;
+}
+
+.brand {
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.brand span {
+  color: #818cf8;
+}
+
+.status {
+  color: #a7f3d0;
+  font-size: 13px;
+}
+
+.hero {
+  text-align: center;
+  padding: 65px 10px 35px;
+}
+
+.eyebrow {
+  color: #a5b4fc;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.hero h1 {
+  font-size: clamp(30px, 5vw, 48px);
+  margin: 14px 0;
+}
+
+.hero > p:last-child,
+.muted {
+  color: #9ca9c0;
+  line-height: 1.7;
+}
+
+.panel {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 30px;
+  background: #141c30;
+  border: 1px solid #293550;
+  border-radius: 18px;
+  box-shadow: 0 20px 60px #00000025;
+}
+
+.panel h2 {
+  margin-top: 0;
+}
+
+.panel form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+label {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+textarea,
+select {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #34415d;
+  border-radius: 9px;
+  background: #0b1223;
+  color: #f1f5f9;
+  font: inherit;
+}
+
+textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+textarea:focus,
+select:focus {
+  outline: 2px solid #818cf8;
+  outline-offset: 2px;
+}
+
+button {
+  margin-top: 12px;
+  padding: 15px;
+  border: none;
+  border-radius: 9px;
+  background: #6366f1;
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #4f46e5;
+}
+
+.message {
+  margin-top: 20px;
+  overflow-wrap: anywhere;
+  color: #a5f3c5;
+}
+
+footer {
+  margin: 45px 0 15px;
+  text-align: center;
+  color: #78869f;
+  font-size: 12px;
+}
+
+@media (max-width: 600px) {
+  .app {
+    padding: 20px 5%;
+  }
+
+  .hero {
+    padding-top: 45px;
+  }
+
+  .panel {
+    padding: 22px;
+  }
+}
+
+.ticket-section {
+  max-width: 1000px;
+  margin: 35px auto;
+  padding: 25px;
+  background: #141c30;
+  border: 1px solid #293550;
+  border-radius: 18px;
+}
+
+.ticket-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.ticket-heading h2 {
+  margin-bottom: 8px;
+}
+
+.ticket-heading button {
+  margin: 0;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+th,
+td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #293550;
+}
+
+th {
+  color: #a5b4fc;
+  font-size: 13px;
+}
+
+td {
+  color: #e2e8f0;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.ticket-status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background: #1d3b35;
+  color: #a7f3d0;
+  font-size: 12px;
+}
+
+@media (max-width: 600px) {
+  .ticket-section {
+    padding: 16px;
+  }
+
+  .ticket-heading {
+    align-items: flex-start;
+  }
+}
