@@ -29,9 +29,8 @@ from customer_support_agent.agent import runner, session_service
 from customer_support_agent.classifier import classify_customer_issue
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-
 load_dotenv()
-client = genai.Client()
+# client = genai.Client()
 from customer_support_agent.database import (
     create_database,
     save_ticket,
@@ -176,10 +175,45 @@ def change_ticket_status(ticket_id: int, request: StatusRequest):
 #             "response": response_text,
 #         }
 
+# @app.post("/ai-assist")
+# async def ai_assist(request: TicketRequest):
+#     try:
+#         category = classify_customer_issue(request.customer_issue)
+
+#         result = client.interactions.create(
+#             model="gemini-3.8-flash",
+#             input=(
+#                 "You are an AI customer support assistant. "
+#                 f"Customer issue: {request.customer_issue}\n"
+#                 f"Category: {category}\n"
+#                 "Explain the issue category and suggest helpful next steps. "
+#                 "Do not claim that a ticket was saved or that a refund "
+#                 "or account change was completed."
+#             ),
+#         )
+
+#         return {
+#             "success": True,
+#             "category": category,
+#             "response": result.output_text,
+#         }
+
+#     except Exception as error:
+#         print(f"AI agent error: {type(error).__name__}: {error}")
+#         raise HTTPException(
+#             status_code=503,
+#             detail="AI service is temporarily unavailable. Please try again.",
+#         )
+
+
 @app.post("/ai-assist")
 async def ai_assist(request: TicketRequest):
     try:
-        category = classify_customer_issue(request.customer_issue)
+        client = genai.Client()
+
+        category = classify_customer_issue(
+            request.customer_issue
+        )
 
         result = client.interactions.create(
             model="gemini-3.8-flash",
@@ -187,8 +221,8 @@ async def ai_assist(request: TicketRequest):
                 "You are an AI customer support assistant. "
                 f"Customer issue: {request.customer_issue}\n"
                 f"Category: {category}\n"
-                "Explain the issue category and suggest helpful next steps. "
-                "Do not claim that a ticket was saved or that a refund "
+                "Explain the category and suggest helpful next steps. "
+                "Do not claim a ticket was saved or that a refund "
                 "or account change was completed."
             ),
         )
@@ -200,12 +234,29 @@ async def ai_assist(request: TicketRequest):
         }
 
     except Exception as error:
-        print(f"AI agent error: {type(error).__name__}: {error}")
-        raise HTTPException(
-            status_code=503,
-            detail="AI service is temporarily unavailable. Please try again.",
+        error_text = str(error)
+        print(
+            f"AI agent error: {type(error).__name__}: {error_text}"
         )
 
+        if "429" in error_text or "RESOURCE_EXHAUSTED" in error_text:
+            return {
+                "success": False,
+                "error": "AI quota exceeded. Please try again later.",
+                "fallback_available": True,
+            }
+
+        if "API key" in error_text or "api_key" in error_text:
+            return {
+                "success": False,
+                "error": "Gemini API key is not configured.",
+                "fallback_available": True,
+            }
+
+        raise HTTPException(
+            status_code=503,
+            detail="AI service is temporarily unavailable.",
+        )
 
     # except Exception as error:
     #     error_text = str(error)
